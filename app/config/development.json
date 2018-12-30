@@ -1,0 +1,11 @@
+{
+    "host": "http://localhost:3000",
+    "dbURI": "mongodb://oyewoas:oyinjesu2016@ds117625.mlab.com:17625/aychatcatdb",
+    "sessionSecret": "secretcodesyes",
+    "fb":{
+        "clientID": "535415246870870",
+        "clientSecret": "28e6d48973b788f939c218130066e868",
+        "callbackURL": "//localhost:3000/auth/facebook/callback",
+        "profileFields": ["id", "displayName", "photos"]
+    }
+}
