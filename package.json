@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel-node": "babel-node --presets=/*a*/ --ignore='foo|bar|baz'",
-    "start": "nodemon --exec npm run babel-node -- server.js"
+    "start": "nodemon --exec npm run babel-node -- ./app/server.js"
   },
   "author": "",
   "license": "ISC",
