@@ -2,7 +2,7 @@
   "name": "sendIt",
   "version": "1.0.0",
   "description": "A parcel delivery application",
-  "main": "index.js",
+  "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel-node": "babel-node --presets=/*a*/ --ignore='foo|bar|baz'",
