@@ -19,6 +19,7 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 // enable cors in dev
 app.use(cors());
 
+
 app.get('/', (req, res) => {
   res.send(process.env.SECRET_KEY);
 });
