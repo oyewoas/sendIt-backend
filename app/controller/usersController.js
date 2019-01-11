@@ -11,6 +11,54 @@ const notFound = { status: '404', message: 'Not Found' };
 const internalserverError = { status: '500', message: 'Internal Server Error' };
 const conflictExistence = { status: '409', message: 'Conflict' };
 
+const loginQuery = (req, res, login) => {
+  const { email, password } = req.body;
+  pool.query('SELECT * FROM users WHERE email = ($1)', [email], (error, dbRes) => {
+    if (error) {
+      // console.log(error);
+      internalserverError.description = 'Could not Log User in';
+      res.status(500).send(internalserverError);
+    } else {
+      notFound.description = 'User does not exist';
+      if (dbRes.rows[0] === undefined) {
+        res.status(404).send(notFound);
+      } else {
+        bcrypt.compare(password, dbRes.rows[0].password,
+          (bcryptError, bcryptRes) => {
+            if (bcryptError) {
+              res.status(404).send(notFound);
+            } else if (bcryptRes) {
+              const token = jwt.sign(
+                {
+                  email: dbRes.rows[0].email,
+                  userId: dbRes.rows[0].user_id,
+                },
+                process.env.JWT_KEY,
+                {
+                  expiresIn: '4h',
+                },
+              );
+              if (login) {
+                const replyGood = { status: '200', message: 'User Logged In Successfully' };
+                replyGood.token = token;
+                replyGood.user_id = dbRes.rows[0].user_id;
+                res.status(200).send(replyGood);
+              } else {
+                const replyCreate = { status: '201', message: 'User Created Successfully' };
+                replyCreate.token = token;
+                replyCreate.user_id = dbRes.rows[0].user_id;
+                res.status(201).send(replyCreate);
+              }
+            } else {
+              // reply.message = 'Unable to encrypt password';
+              res.status(401).send(notFound);
+            }
+          });
+      }
+    }
+  });
+};
+
 
 const createUser = (req, res) => {
   const { email, username, password } = req.body;
@@ -31,7 +79,7 @@ const createUser = (req, res) => {
               message: 'could not encrypt password',
             });
           } else if (validateEmail(email) && validatePassword(password)) {
-            pool.query('INSERT INTO users(email, password, username) values($1, $2, $3)', 
+            pool.query('INSERT INTO users(email, password, username) values($1, $2, $3)',
               [email, hash, username], (errorRes) => {
                 if (errorRes) {
                   internalserverError.description = 'Could not create new user account';
@@ -51,4 +99,8 @@ const createUser = (req, res) => {
       }
     });
   }
+};
+
+export {
+  createUser,
 };
