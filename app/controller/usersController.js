@@ -63,6 +63,7 @@ const loginQuery = (req, res, login) => {
 
 const createUser = (req, res) => {
   const { email, username, password } = req.body;
+  const registered = new Date();
   if (isEmpty(email) || isEmpty(username) || isEmpty(password)) {
     badRequest.description = 'Email, password and username field cannot be empty';
     res.status(400).send(badRequest);
@@ -80,23 +81,23 @@ const createUser = (req, res) => {
               message: 'could not encrypt password',
             });
           } else if (validateEmail(email) && validatePassword(password)) {
-            pool.query('INSERT INTO users(email, password, username) values($1, $2, $3)',
-              [email, hash, username], (errorRes) => {
-                if (errorRes) {
+            pool.query('INSERT INTO users(email, username, password, registered) values($1, $2, $3, $4)',
+              [email, username, hash, registered], (error, realRes) => {
+                if (error) {
                   internalserverError.description = 'Could not create new user ';
                   res.status(500).send(internalserverError);
                 } else {
-                  res.status(500).json({message: 'User Created Successfully'});
+                  res.status(500).json({ message: 'User Created Successfully' });
                 //   loginQuery(req, res, false);
                 }
               });
           } else if (!validateEmail(email) || !validatePassword(password)) {
-            badRequest.description = 'Invalid Username or Password';
+            badRequest.description = 'Invalid Email or Password';
             res.status(400).send(badRequest);
           }
         });
       } else {
-        conflictExists.description = 'User Already Exists';
+        conflictExists.description = 'User or Email Already Exists';
         res.status(409).send(conflictExists);
       }
     });
