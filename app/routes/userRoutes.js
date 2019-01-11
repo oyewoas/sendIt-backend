@@ -1,23 +1,14 @@
-export default function route(app) {
-    // const badRequest = { status: 400, message: 'Bad Request' };
+import { createUser } from '../controller/usersController';
+// import verifyAuth from '../middleware/verifyAuth';
+
+  export default function route(app) {
+    app.post('/api/v1/user/signup', createUser);
   
-    // Get Request for a single entry 
-    // app.get('/api/v1/entries/:id', checkAuth, getEntry);
+    // app.post('/api/v1/user/login', logIn);
   
+    // app.get('/api/v1/user/profile', checkAuth, getProfile);
   
-    // // Get request for all entries in the array
-    // app.get('/api/v1/entries', checkAuth, getEntries);
+    // app.put('/api/v1/user/profile', checkAuth, updateProfile);
   
-  
-    // // Post Request for an entry
-    // app.post('/api/v1/entries', checkAuth, createEntry);
-  
-  
-    // // Put Request to modify the content of an entryRoutes
-    // app.put('/api/v1/entries/:id', checkAuth, updateEntry);
-  
-  
-    // // Delete Request to delete an entry
-    // app.delete('/api/v1/entries/:id', checkAuth, deleteEntry);
-  }
-  
+    // app.put('/api/v1/user/updatename', checkAuth, updateName);
+}
