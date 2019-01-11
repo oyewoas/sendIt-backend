@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 4000;
 
 // const swaggerDocument = YAML.load(path.join(process.cwd(), './swagger/swagger.yaml'));
 
-createTables();
+// createTables();
 dotenv.config();
 
 // create express app

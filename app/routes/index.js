@@ -1,22 +1,11 @@
-const express = require('express');
+import parcelRoutes from './parcelRoutes';
+import userRoutes from './userRoutes';
 
-const app = express();
+const parcelRoute = parcelRoutes;
+const userRoute = userRoutes;
 
-app.get('/', (req, res) => {
-  res.send(process.env.SECRET_KEY);
-});
-
-// app.use('/auth', require('./auth'));
-
-// app.use('/users', require('./users'));
-
-// app.use('/projects', require('./projects'));
-
-// app.use('/tasks', require('./tasks'));
-
-// the catch all route
-app.all('*', (req, res) => {
-  res.status(404).send({ msg: 'not found' });
-});
-
-module.exports = app;
+export default function router(app) {
+  parcelRoute(app);
+  userRoute(app);
+  // Other route groups could go here, in the future
+}
