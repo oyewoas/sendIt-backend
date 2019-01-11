@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel-node": "babel-node",
-    "start": "nodemon --exec npm run babel-node -- ./app/server.js"
+    "start": "nodemon --exec npm run babel-node -- server.js"
   },
   "author": "",
   "license": "ISC",
@@ -27,6 +27,7 @@
     "nodemon": "^1.18.9"
   },
   "dependencies": {
+    "bcrypt": "^3.0.3",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "cors": "^2.8.5",
