@@ -9,7 +9,8 @@ dotenv.config();
 const badRequest = { status: '400', message: 'Bad Request' };
 const notFound = { status: '404', message: 'Not Found' };
 const internalserverError = { status: '500', message: 'Internal Server Error' };
-const conflictExistence = { status: '409', message: 'Conflict' };
+const conflictExists = { status: '409', message: 'Conflict' };
+
 
 const loginQuery = (req, res, login) => {
   const { email, password } = req.body;
@@ -82,10 +83,11 @@ const createUser = (req, res) => {
             pool.query('INSERT INTO users(email, password, username) values($1, $2, $3)',
               [email, hash, username], (errorRes) => {
                 if (errorRes) {
-                  internalserverError.description = 'Could not create new user account';
+                  internalserverError.description = 'Could not create new user ';
                   res.status(500).send(internalserverError);
                 } else {
-                  loginQuery(req, res, false);
+                  res.status(500).json({message: 'User Created Successfully'});
+                //   loginQuery(req, res, false);
                 }
               });
           } else if (!validateEmail(email) || !validatePassword(password)) {
@@ -94,8 +96,8 @@ const createUser = (req, res) => {
           }
         });
       } else {
-        conflictExistence.description = 'User Already Exists';
-        res.status(409).send(conflictExistence);
+        conflictExists.description = 'User Already Exists';
+        res.status(409).send(conflictExists);
       }
     });
   }
