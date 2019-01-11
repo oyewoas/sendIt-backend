@@ -41,7 +41,7 @@ const createUser = (req, res) => {
               });
           } else if (!validateEmail(email) || !validatePassword(password)) {
             badRequest.description = 'Invalid Username or Password';
-            res.status(400).send(badRequest);
+            res.status(400).send(badRequest); 
           }
         });
       }
