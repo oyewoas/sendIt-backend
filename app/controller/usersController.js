@@ -60,6 +60,19 @@ const loginQuery = (req, res, login) => {
   });
 };
 
+const logIn = (req, res) => {
+  const { email, password } = req.body;
+  if (isEmpty(email) || isEmpty(password)) {
+    // const badReq = { status: '400', message: 'Email or password field cannot be empty' };
+    badRequest.description = 'Email or password field cannot be empty';
+    res.status(400).send(badRequest);
+  } else if (validateEmail(email) && validatePassword(password)) {
+    loginQuery(req, res, true);
+  } else if (!validateEmail(email) || !validatePassword(password)) {
+    const replyServer = { status: '400', message: 'Invalid email or password' };
+    res.status(400).send(replyServer);
+  }
+};
 
 const createUser = (req, res) => {
   const { email, username, password } = req.body;
@@ -87,8 +100,8 @@ const createUser = (req, res) => {
                   internalserverError.description = 'Could not create new user ';
                   res.status(500).send(internalserverError);
                 } else {
-                  res.status(500).json({ message: 'User Created Successfully' });
-                //   loginQuery(req, res, false);
+                //   res.status(500).json({ message: 'User Created Successfully' });
+                  loginQuery(req, res, false);
                 }
               });
           } else if (!validateEmail(email) || !validatePassword(password)) {
@@ -105,5 +118,5 @@ const createUser = (req, res) => {
 };
 
 export {
-  createUser,
+  createUser, loginQuery, logIn,
 };
