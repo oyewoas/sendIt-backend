@@ -40,17 +40,17 @@ const loginQuery = (req, res, login) => {
                 },
               );
               if (login) {
-                const replyGood = { status: '200', data: [] };
+                const replyLogin = { status: '200', data: [] };
                 const message = 'User Logged In Successfully';
                 const dbResponse = dbRes.rows[0];
-                replyGood.data.push({ token, user: { user_id: dbResponse.user_id, username: dbResponse.username }, message });
-                res.status(200).send(replyGood);
+                replyLogin.data.push({ token, user: { user_id: dbResponse.user_id, username: dbResponse.username }, message });
+                res.status(200).send(replyLogin);
               } else {
-                const replyCreate = { status: '201', data: [] };
+                const replySignUp = { status: '201', data: [] };
                 const message = 'User Created Successfully';
                 const dbResponse = dbRes.rows[0];
-                replyCreate.data.push({ token, user: { user_id: dbResponse.user_id, username: dbResponse.username }, message });
-                res.status(201).send(replyCreate);
+                replySignUp.data.push({ token, user: { user_id: dbResponse.user_id, username: dbResponse.username }, message });
+                res.status(201).send(replySignUp);
               }
             } else {
               // reply.message = 'Unable to encrypt password';
