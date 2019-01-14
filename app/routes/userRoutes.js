@@ -1,10 +1,10 @@
-import { createUser } from '../controller/usersController';
+import { createUser, logIn } from '../controller/usersController';
 // import verifyAuth from '../middleware/verifyAuth';
 
 export default function route(app) {
   app.post('/api/v1/user/signup', createUser);
   
-  // app.post('/api/v1/user/login', logIn);
+  app.post('/api/v1/user/login', logIn);
   
   // app.get('/api/v1/user/profile', checkAuth, getProfile);
   
