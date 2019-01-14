@@ -121,7 +121,7 @@ const createUser = (req, res) => {
 
 const updateProfile = (req, res) => {
   const {
-    email, username, firstname, lastname, othernames 
+    email, username, firstname, lastname, othernames,
   } = req.body;
   if (isEmpty(email) || isEmpty(username) || !validateEmail(email)) {
     badRequest.description = 'Email or username field cannot be empty';
