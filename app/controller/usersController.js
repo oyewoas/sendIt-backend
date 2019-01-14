@@ -41,13 +41,15 @@ const loginQuery = (req, res, login) => {
               );
               if (login) {
                 const replyGood = { status: '200', message: 'User Logged In Successfully' };
+                const dbResponse = dbRes.rows[0];
                 replyGood.token = token;
-                replyGood.user_id = dbRes.rows[0].user_id;
+                replyGood.user_id = dbResponse.user_id;
                 res.status(200).send(replyGood);
               } else {
-                const replyCreate = { status: '201', message: 'User Created Successfully' };
-                replyCreate.token = token;
-                replyCreate.user_id = dbRes.rows[0].user_id;
+                const replyCreate = { status: '201', data: [] };
+                const message = 'User Created Successfully';
+                const dbResponse = dbRes.rows[0];
+                replyCreate.data.push({ token, user: { user_id: dbResponse.user_id, username: dbResponse.username }, message });
                 res.status(201).send(replyCreate);
               }
             } else {
