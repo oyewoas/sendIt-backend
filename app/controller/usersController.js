@@ -137,21 +137,21 @@ const updateProfile = (req, res) => {
           pool.query('UPDATE users SET email = ($1), username = ($2), firstname = ($3), lastname($4), othernames($5) WHERE user_id = $6',
             [email, username, firstname, lastname, othernames, req.userData.userId], (error) => {
               if (error) {
-                const replyServer = { status: '500', message: 'Internal Server Error', description: 'Could not update profile' };
-                res.status(500).send(replyServer);
+                internalserverError.description = 'Could not update profile';
+                res.status(500).send(internalserverError);
               } else {
                 pool.query('SELECT email, username FROM users WHERE user_id = ($1)', [req.userData.userId], (err, dbRes) => {
                   if (err) {
-                    const reply = { status: '500', message: 'Internal Server Error', description: 'Could not retrieve updated profile' };
-                    res.status(500).send(reply);
+                    internalserverError.description = 'Could not retrieve updated profile';
+                    res.status(500).send(internalserverError);
                   } else {
                   // const db = { entries: dbRes.rows, size: dbRes.rows.length };
-                    const reply = { status: '404', message: 'User Not Found' };
+                    notFound.description = 'Cannot Find User';
                     if (dbRes.rows === undefined) {
-                      res.status(404).send(reply);
+                      res.status(404).send(notFound);
                     } else {
-                      const goodReply = { status: '200', message: 'Profile Modified successfully', profile: dbRes.rows[0] };
-                      res.status(200).send(goodReply);
+                      const updateReply = { status: '200', message: 'Profile Modified successfully', profile: dbRes.rows[0] };
+                      res.status(200).send(updateReply);
                     }
                   }
                 });
