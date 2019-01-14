@@ -40,10 +40,10 @@ const loginQuery = (req, res, login) => {
                 },
               );
               if (login) {
-                const replyGood = { status: '200', message: 'User Logged In Successfully' };
+                const replyGood = { status: '200', data: [] };
+                const message = 'User Logged In Successfully';
                 const dbResponse = dbRes.rows[0];
-                replyGood.token = token;
-                replyGood.user_id = dbResponse.user_id;
+                replyGood.data.push({ token, user: { user_id: dbResponse.user_id, username: dbResponse.username }, message });
                 res.status(200).send(replyGood);
               } else {
                 const replyCreate = { status: '201', data: [] };
