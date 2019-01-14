@@ -166,5 +166,5 @@ const updateProfile = (req, res) => {
 };
 
 export {
-  createUser, loginQuery, logIn,
+  createUser, loginQuery, logIn, updateProfile,
 };
