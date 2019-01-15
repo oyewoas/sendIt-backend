@@ -7,11 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint",
     "babel-node": "babel-node",
-<<<<<<< HEAD
     "start": "nodemon --watch . --exec npm run babel-node -- server.js"
-=======
-    "start": "nodemon --exec npm run babel-node -- server.js" 
->>>>>>> develop
   },
   "author": "",
   "license": "ISC",
