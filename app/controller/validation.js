@@ -4,7 +4,11 @@ const validateEmail = (email) => {
 };
 
 const validatePassword = (password) => {
+<<<<<<< HEAD
   if (password.length < 5 || password === '') {
+=======
+  if (password.length < 6 || password === '') {
+>>>>>>> develop
     return false;
   } return true;
 };

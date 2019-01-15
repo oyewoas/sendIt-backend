@@ -5,8 +5,13 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint",
     "babel-node": "babel-node",
+<<<<<<< HEAD
     "start": "nodemon --watch . --exec npm run babel-node -- server.js"
+=======
+    "start": "nodemon --exec npm run babel-node -- server.js" 
+>>>>>>> develop
   },
   "author": "",
   "license": "ISC",
@@ -35,6 +40,7 @@
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
     "mocha": "^5.2.0",
+    "path": "^0.12.7",
     "pg": "^7.7.1"
   },
   "repository": {
