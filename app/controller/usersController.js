@@ -143,7 +143,7 @@ const updateProfile = (req, res) => {
                 pool.query('SELECT email, username FROM users WHERE user_id = ($1)', [req.userData.userId], (err, dbRes) => {
                   if (err) {
                     internalserverError.description = 'Could not retrieve updated profile';
-                    res.status(500).send(internalserverError);
+                    res.status(500).send(internalserverError); 
                   } else {
                   // const db = { entries: dbRes.rows, size: dbRes.rows.length };
                     notFound.description = 'Cannot Find User';
