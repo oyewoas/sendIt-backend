@@ -69,7 +69,7 @@ const logIn = (req, res) => {
     // const badReq = { status: '400', message: 'Email or password field cannot be empty' };
     badRequest.description = 'Email or password field cannot be empty';
     res.status(400).send(badRequest);
-  } else if (validateEmail(email) && validatePassword(password)) {
+  } else if (validateEmail(email) && validatePassword(password)) {  
     loginQuery(req, res, true);
   } else if (!validateEmail(email) || !validatePassword(password)) {
     const replyServer = { status: '400', message: 'Invalid email or password' };
@@ -151,8 +151,54 @@ const createUser = (req, res) => {
 };
 <<<<<<< HEAD
 
+const updateProfile = (req, res) => {
+  const {
+    email, username, firstname, lastname, othernames,
+  } = req.body;
+  if (isEmpty(email) || isEmpty(username) || !validateEmail(email)) {
+    badRequest.description = 'Email or username field cannot be empty';
+    res.status(400).send(badRequest);
+  } else {
+    pool.query('SELECT * FROM users WHERE email = ($1)', [email], (checkErr, response) => {
+      if (checkErr) {
+        internalserverError.description = 'Could not create user';
+        res.status(500).send(internalserverError);
+      } else {
+        conflictExists.description = 'User Already Exists';
+        if (response.rows[0] === undefined) {
+          pool.query('UPDATE users SET email = ($1), username = ($2), firstname = ($3), lastname($4), othernames($5) WHERE user_id = $6',
+            [email, username, firstname, lastname, othernames, req.userData.userId], (error) => {
+              if (error) {
+                internalserverError.description = 'Could not update profile';
+                res.status(500).send(internalserverError);
+              } else {
+                pool.query('SELECT email, username FROM users WHERE user_id = ($1)', [req.userData.userId], (err, dbRes) => {
+                  if (err) {
+                    internalserverError.description = 'Could not retrieve updated profile';
+                    res.status(500).send(internalserverError); 
+                  } else {
+                  // const db = { entries: dbRes.rows, size: dbRes.rows.length };
+                    notFound.description = 'Cannot Find User';
+                    if (dbRes.rows === undefined) {
+                      res.status(404).send(notFound);
+                    } else {
+                      const updateReply = { status: '200', message: 'Profile Modified successfully', profile: dbRes.rows[0] };
+                      res.status(200).send(updateReply);
+                    }
+                  }
+                });
+              }
+            });
+        } else {
+          res.status(409).send(conflictExists);
+        }
+      }
+    });
+  }
+};
+
 export {
-  createUser, loginQuery, logIn,
+  createUser, loginQuery, logIn, updateProfile,
 };
 =======
 >>>>>>> develop
