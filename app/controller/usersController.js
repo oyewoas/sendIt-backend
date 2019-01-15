@@ -68,7 +68,7 @@ const logIn = (req, res) => {
     // const badReq = { status: '400', message: 'Email or password field cannot be empty' };
     badRequest.description = 'Email or password field cannot be empty';
     res.status(400).send(badRequest);
-  } else if (validateEmail(email) && validatePassword(password)) {
+  } else if (validateEmail(email) && validatePassword(password)) {  
     loginQuery(req, res, true);
   } else if (!validateEmail(email) || !validatePassword(password)) {
     const replyServer = { status: '400', message: 'Invalid email or password' };
